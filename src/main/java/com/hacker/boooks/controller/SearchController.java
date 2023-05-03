@@ -4,10 +4,7 @@ import com.hacker.boooks.bean.SearchResult;
 import com.hacker.boooks.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,8 +13,9 @@ import java.util.List;
  * @apiNote Controller class for search
  * @since 1.0
  */
-@Controller
-@RequestMapping(value = "/boooks")
+@RestController
+@RequestMapping(value = "/search")
+@CrossOrigin(origins = "*")
 @SuppressWarnings("unused")
 public class SearchController {
 
@@ -31,10 +29,9 @@ public class SearchController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/search")
-    @ResponseBody
-    public List<SearchResult> search(@RequestHeader String keyword) {
-        return searchService.search(keyword);
-    }
+//    @GetMapping("/{keyword}")
+//    public List<SearchResult> search(@PathVariable String keyword) {
+//        return searchService.search(keyword);
+//    }
 
 }

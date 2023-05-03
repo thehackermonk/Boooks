@@ -19,8 +19,9 @@ import java.util.Map;
  * @apiNote Controller class for everything related to member
  * @since 1.0
  */
-@Controller
-@RequestMapping(value = "/boooks/member")
+@RestController
+@RequestMapping(value = "/member")
+@CrossOrigin(origins = "*")
 @SuppressWarnings("unused")
 public class MemberController {
 
@@ -39,16 +40,15 @@ public class MemberController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/add")
-    @ResponseBody
-    public Map<String, Boolean> addMember(@RequestHeader String name, @RequestHeader String dateOfBirth, @RequestHeader String email, @RequestHeader String contact, @RequestHeader String gender, @RequestHeader String favoriteGenre) {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        MemberBO member = new MemberBO(name, LocalDate.parse(dateOfBirth, formatter), email, contact, gender, favoriteGenre);
-
-        return memberService.addMember(member);
-
-    }
+//    @PostMapping("")
+//    public Map<String, Boolean> addMember(@RequestHeader String name, @RequestHeader String dateOfBirth, @RequestHeader String email, @RequestHeader String contact, @RequestHeader String gender, @RequestHeader String favoriteGenre) {
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//        MemberBO member = new MemberBO(name, LocalDate.parse(dateOfBirth, formatter), email, contact, gender, favoriteGenre);
+//
+//        return memberService.addMember(member);
+//
+//    }
 
     /**
      * @param contact Contact of the member
@@ -57,11 +57,10 @@ public class MemberController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/checkcontact")
-    @ResponseBody
-    public Map<String, Boolean> checkContact(@RequestHeader String contact) {
-        return memberService.checkContact(contact);
-    }
+//    @GetMapping("/check-contact")
+//    public Map<String, Boolean> checkContact(@RequestHeader String contact) {
+//        return memberService.checkContact(contact);
+//    }
 
     /**
      * @param email Email ID of the member
@@ -70,11 +69,10 @@ public class MemberController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/checkemail")
-    @ResponseBody
-    public Map<String, Boolean> checkEmail(@RequestHeader String email) {
-        return memberService.checkEmail(email);
-    }
+//    @GetMapping("/check-email")
+//    public Map<String, Boolean> checkEmail(@RequestHeader String email) {
+//        return memberService.checkEmail(email);
+//    }
 
     /**
      * @param membershipID Unique ID of the member
@@ -83,11 +81,10 @@ public class MemberController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/remove")
-    @ResponseBody
-    public Map<String, Boolean> removeMember(@RequestHeader int membershipID) {
-        return memberService.removeMember(membershipID);
-    }
+//    @DeleteMapping("/{membershipID}")
+//    public Map<String, Boolean> removeMember(@PathVariable int membershipID) {
+//        return memberService.removeMember(membershipID);
+//    }
 
     /**
      * @param membershipID Unique ID of the member
@@ -96,11 +93,10 @@ public class MemberController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/getholdingbooks")
-    @ResponseBody
-    public List<Book> getBooksMemberHolds(@RequestHeader int membershipID) {
-        return memberService.getBooksHoldingByMember(membershipID);
-    }
+//    @GetMapping("/{memberId}/books")
+//    public List<Book> getBooksMemberHolds(@RequestHeader int membershipID) {
+//        return memberService.getBooksHoldingByMember(membershipID);
+//    }
 
     /**
      * @param membershipID Unique ID of the member
@@ -109,11 +105,10 @@ public class MemberController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/getgenresreadbookcount")
-    @ResponseBody
-    public Map<String, Integer> getBookCountGenreWise(@RequestHeader int membershipID) {
-        return memberService.getBookCountGenreWise(membershipID);
-    }
+//    @PostMapping("/{memberId}/books/genre-count")
+//    public Map<String, Integer> getBookCountGenreWise(@RequestHeader int membershipID) {
+//        return memberService.getBookCountGenreWise(membershipID);
+//    }
 
     /**
      * @param membershipID Unique ID of the member
@@ -122,11 +117,10 @@ public class MemberController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/getdetailsbyid")
-    @ResponseBody
-    public Member getMemberByID(@RequestHeader int membershipID) {
-        return memberService.getMemberDetails(membershipID);
-    }
+//    @GetMapping("/{membershipID}")
+//    public Member getMemberByID(@PathVariable int membershipID) {
+//        return memberService.getMemberDetails(membershipID);
+//    }
 
     /**
      * @param membershipID Unique ID of the member
@@ -135,11 +129,10 @@ public class MemberController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/getprofile")
-    @ResponseBody
-    public MemberProfile getMemberProfile(@RequestHeader int membershipID) {
-        return null;
-    }
+//    @GetMapping("/{membershipID}/profile")
+//    public MemberProfile getMemberProfile(@PathVariable int membershipID) {
+//        return null;
+//    }
 
     /**
      * @param membershipID Unique ID of the member
@@ -148,11 +141,10 @@ public class MemberController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/getholdingbooknames")
-    @ResponseBody
-    public List<Book> getBooksHoldingByMember(@RequestHeader int membershipID) {
-        return memberService.getBooksHoldingByMember(membershipID);
-    }
+//    @PostMapping("/{membershipID}/holding-books")
+//    public List<Book> getBooksHoldingByMember(@PathVariable int membershipID) {
+//        return memberService.getBooksHoldingByMember(membershipID);
+//    }
 
     /**
      * @return List of member IDs
@@ -160,11 +152,10 @@ public class MemberController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @GetMapping("/getmembershipids")
-    @ResponseBody
-    public List<Integer> getMembershipIDs() {
-        return memberService.getMembershipIDs();
-    }
+//    @GetMapping("/membership-ids")
+//    public List<Integer> getMembershipIDs() {
+//        return memberService.getMembershipIDs();
+//    }
 
     /**
      * @param membershipID Unique ID of the member
@@ -173,16 +164,15 @@ public class MemberController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/update")
-    @ResponseBody
-    public Map<String, Boolean> updateMember(@RequestHeader int membershipID, @RequestHeader String name, @RequestHeader String dateOfBirth, @RequestHeader String email, @RequestHeader String contact, @RequestHeader String gender, @RequestHeader String favoriteGenre) {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-        MemberBO member = new MemberBO(name, LocalDate.parse(dateOfBirth, formatter), email, contact, gender, favoriteGenre);
-
-        return memberService.updateMember(membershipID, member);
-
-    }
+//    @PutMapping("/{memberId}")
+//    public Map<String, Boolean> updateMember(@PathVariable int membershipID, @RequestHeader String name, @RequestHeader String dateOfBirth, @RequestHeader String email, @RequestHeader String contact, @RequestHeader String gender, @RequestHeader String favoriteGenre) {
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//
+//        MemberBO member = new MemberBO(name, LocalDate.parse(dateOfBirth, formatter), email, contact, gender, favoriteGenre);
+//
+//        return memberService.updateMember(membershipID, member);
+//
+//    }
 
 }

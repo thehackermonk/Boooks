@@ -1,25 +1,19 @@
 package com.hacker.boooks.controller;
 
-import com.hacker.boooks.bean.ResponseEntity;
-import com.hacker.boooks.bean.Token;
 import com.hacker.boooks.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
 
 /**
  * @author [@thehackermonk]
  * @apiNote Controller class for user authentication
  * @since 1.0
  */
-@Controller
-@RequestMapping(value = "/boooks")
+@RestController
+@RequestMapping(value = "/auth")
+@CrossOrigin(origins = "*")
 @SuppressWarnings("unused")
 public class AuthenticationController {
 
@@ -35,11 +29,10 @@ public class AuthenticationController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/login")
-    @ResponseBody
-    public ResponseEntity<Token> login(@RequestHeader String username, @RequestHeader String password) throws NoSuchAlgorithmException {
-        return authenticationService.login(username, password);
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<Token> login(@RequestHeader String username, @RequestHeader String password) throws NoSuchAlgorithmException {
+//        return authenticationService.login(username, password);
+//    }
 
     /**
      * @param username    User ID of the user
@@ -48,10 +41,26 @@ public class AuthenticationController {
      * @apiNote Controller for logout
      * @author [@thehackermonk]
      */
-    @PostMapping("/logout")
-    @ResponseBody
-    public Map<String, Boolean> logout(@RequestHeader String username, @RequestHeader String accesstoken) {
-        return authenticationService.logout(username, accesstoken);
-    }
+//    @PostMapping("/logout")
+//    public Map<String, Boolean> logout(@RequestHeader String username, @RequestHeader String accesstoken) {
+//        return authenticationService.logout(username, accesstoken);
+//    }
+
+    /**
+     * @param userID      username of the application
+     * @param oldPassword existing password
+     * @param newPassword new password
+     * @return http response
+     * @apiNote change password
+     * @author [@thehackermonk]
+     * @since 1.0
+     */
+//    @PutMapping("/change-password")
+//    public int changePassword(@RequestHeader String userID, @RequestHeader String oldPassword, @RequestHeader String newPassword) throws NoSuchAlgorithmException {
+//
+//        ChangePasswordBO changePasswordBO = new ChangePasswordBO(userID, oldPassword, newPassword);
+//        return authenticationService.changePassword(changePasswordBO);
+//
+//    }
 
 }

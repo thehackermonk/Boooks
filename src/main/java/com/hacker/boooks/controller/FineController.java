@@ -3,10 +3,7 @@ package com.hacker.boooks.controller;
 import com.hacker.boooks.service.FineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -15,8 +12,9 @@ import java.util.Map;
  * @apiNote Controller class for everything related to fine
  * @since 1.0
  */
-@Controller
-@RequestMapping(value = "/boooks/fine")
+@RestController
+@RequestMapping(value = "/fine")
+@CrossOrigin(origins = "*")
 @SuppressWarnings("unused")
 public class FineController {
 
@@ -30,13 +28,12 @@ public class FineController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/updatedays")
-    @ResponseBody
-    public Map<String, Boolean> setDaysForFine(@RequestHeader int days) {
-
-        return fineService.setDaysForFine(days);
-
-    }
+//    @PutMapping("/days")
+//    public Map<String, Boolean> setDaysForFine(@RequestHeader int days) {
+//
+//        return fineService.setDaysForFine(days);
+//
+//    }
 
     /**
      * @param amount amount to be fined per day
@@ -45,12 +42,11 @@ public class FineController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/updateamount")
-    @ResponseBody
-    public Map<String, Boolean> setAmount(@RequestHeader float amount) {
-
-        return fineService.setAmount(amount);
-
-    }
+//    @PutMapping("/amount")
+//    public Map<String, Boolean> setAmount(@RequestHeader float amount) {
+//
+//        return fineService.setAmount(amount);
+//
+//    }
 
 }

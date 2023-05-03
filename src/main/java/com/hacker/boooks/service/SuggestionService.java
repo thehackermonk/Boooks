@@ -11,11 +11,4 @@ import java.util.List;
 @Service
 public interface SuggestionService {
 
-    /**
-     * @apiNote Get suggestions for a member
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    List<Book> getSuggestions(int membershipID);
-
 }

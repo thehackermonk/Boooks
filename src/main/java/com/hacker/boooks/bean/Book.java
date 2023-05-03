@@ -1,81 +1,33 @@
 package com.hacker.boooks.bean;
 
+import com.hacker.boooks.entity.BookEntity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Book {
 
     private int bookID;
-    private String name;
+    private String title;
     private String author;
-    private Publication publication;
+    private String publication;
     private String genre;
     private boolean available;
-    private Member holder;
+    private Integer holder;
 
-    public Book() {
+    public Book(BookEntity bookEntity) {
+        this.bookID = bookEntity.getBookID();
+        this.title = bookEntity.getTitle();
+        this.author = bookEntity.getAuthor();
+        this.publication = bookEntity.getPublication();
+        this.genre = bookEntity.getGenre();
+        this.available = bookEntity.isAvailable();
+        this.holder = bookEntity.getHolder();
     }
 
-    public Book(int bookID, String name, String author, Publication publication, String genre, boolean available, Member holder) {
-        this.bookID = bookID;
-        this.name = name;
-        this.author = author;
-        this.publication = publication;
-        this.genre = genre;
-        this.available = available;
-        this.holder = holder;
-    }
-
-    public int getBookID() {
-        return bookID;
-    }
-
-    public void setBookID(int bookID) {
-        this.bookID = bookID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public Publication getPublication() {
-        return publication;
-    }
-
-    public void setPublication(Publication publication) {
-        this.publication = publication;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public boolean isAvailable() {
-        return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
-
-    public Member getHolder() {
-        return holder;
-    }
-
-    public void setHolder(Member holder) {
-        this.holder = holder;
-    }
 }

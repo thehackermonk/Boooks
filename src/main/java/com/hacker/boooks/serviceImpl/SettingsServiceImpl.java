@@ -18,41 +18,6 @@ import java.security.NoSuchAlgorithmException;
 @SuppressWarnings("unused")
 public class SettingsServiceImpl implements SettingsService {
 
-    Logger log = LoggerFactory.getLogger(SettingsServiceImpl.class);
 
-    @Autowired
-    private LoginRepository loginRepository;
-    @Autowired
-    private EncryptionService encryptionService;
-
-    /**
-     * @param changePasswordBO User ID, old password, new password
-     * @return http response status
-     * @apiNote To change password
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    @Override
-    public int changePassword(ChangePasswordBO changePasswordBO) throws NoSuchAlgorithmException {
-
-        LoginEntity loginEntity = loginRepository.getById(changePasswordBO.getUserID());
-
-        String oldPassword = encryptionService.encrypt(changePasswordBO.getOldPassword());
-        String newPassword = encryptionService.encrypt(changePasswordBO.getNewPassword());
-
-        if (oldPassword.equals(loginEntity.getPassword())) {
-
-            loginEntity.setPassword(newPassword);
-            loginRepository.save(loginEntity);
-
-            log.info(Response.PASSWORD_UPDATED_SUCCESSFULLY);
-
-            return HTTPResponseCode.SUCCESS;
-
-        } else {
-            return HTTPResponseCode.UNAUTHORIZED_ACCESS;
-        }
-
-    }
 
 }

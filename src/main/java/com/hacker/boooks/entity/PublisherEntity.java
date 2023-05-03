@@ -1,40 +1,24 @@
 package com.hacker.boooks.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "publisher")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class PublisherEntity {
 
     @Id
-    @Column(name = "publisher_id")
-    int publisherId;
     String name;
+    String email;
+    String website;
 
-    public PublisherEntity() {
-    }
-
-    public PublisherEntity(int publisherId, String name) {
-        this.publisherId = publisherId;
-        this.name = name;
-    }
-
-    public int getPublisherId() {
-        return publisherId;
-    }
-
-    public void setPublisherId(int publisherId) {
-        this.publisherId = publisherId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

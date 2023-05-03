@@ -18,47 +18,5 @@ import java.time.LocalDate;
 @SuppressWarnings("unused")
 public class IssueServiceImpl implements IssueService {
 
-    Logger log = LoggerFactory.getLogger(IssueServiceImpl.class);
-
-    @Autowired
-    private BookRepository bookRepository;
-
-    @Autowired
-    private FineService fineService;
-    @Autowired
-    private LogService logService;
-    @Autowired
-    private MemberService memberService;
-
-    /**
-     * @param bookName     Name of the book
-     * @param membershipID Unique ID of the member
-     * @apiNote Issue book
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    @Override
-    public LocalDate issueBook(String bookName, int membershipID) {
-
-        BookEntity book = bookRepository.getBookByName(bookName);
-        Member member = memberService.getMemberDetails(membershipID);
-
-        LocalDate today = LocalDate.now();
-        LocalDate toBePaid = today.plusDays(fineService.getDaysAfterFineIsCharged());
-
-        int logSlNo = logService.getNextSlNo();
-
-        book.setAvailable(false);
-        book.setHolder(membershipID);
-
-        bookRepository.save(book);
-
-        logService.addLog(logSlNo, book.getBookID(), membershipID, today);
-
-        log.info(bookName + " issued to " + member.getName());
-
-        return toBePaid;
-
-    }
 
 }

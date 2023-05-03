@@ -1,31 +1,17 @@
 package com.hacker.boooks.bean;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class SearchResult {
 
     private String result;
     private String type;
 
-    public SearchResult() {
-    }
-
-    public SearchResult(String result, String type) {
-        this.result = result;
-        this.type = type;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }

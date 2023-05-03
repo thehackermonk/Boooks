@@ -10,11 +10,4 @@ import java.time.LocalDate;
 @Service
 public interface IssueService {
 
-    /**
-     * @apiNote Issue book
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    LocalDate issueBook(String bookName, int membershipID);
-
 }

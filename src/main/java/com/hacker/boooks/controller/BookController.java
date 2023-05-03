@@ -2,23 +2,24 @@ package com.hacker.boooks.controller;
 
 import com.hacker.boooks.bean.Book;
 import com.hacker.boooks.bean.BookProfile;
+import com.hacker.boooks.bean.BookRequest;
 import com.hacker.boooks.bean.Member;
 import com.hacker.boooks.bo.BookBO;
 import com.hacker.boooks.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author [@thehackermonk]
  * @apiNote Controller class for everything related to book
  * @since 1.0
  */
-@Controller
-@RequestMapping(value = "/boooks/book")
+@RestController
+@RequestMapping(value = "/books")
+@CrossOrigin(origins = "*")
 @SuppressWarnings("unused")
 public class BookController {
 
@@ -26,48 +27,46 @@ public class BookController {
     private BookService bookService;
 
     /**
-     * @param name        Name of the book
-     * @param author      Author of the book
-     * @param publication Publication of the book
-     * @param genre       Genre of the book
-     * @return true if book added successfully, false otherwise
+     * Adds a new book to the library with the provided information.
+     *
+     * @param bookRequest the book request containing the name, author, publication, and genre of the book
+     * @return ResponseEntity<String> with HTTP status OK and a message indicating successful addition of book, or HTTP status BAD_REQUEST and an error message otherwise.
      * @apiNote Add book
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/add")
-    @ResponseBody
-    public Map<String, Boolean> addBook(@RequestHeader String name, @RequestHeader String author, @RequestHeader String publication, @RequestHeader String genre) {
-
-        BookBO bookBO = new BookBO(name, author, publication, genre);
-
+    @PostMapping("")
+    public ResponseEntity<String> addBook(@RequestBody BookRequest bookRequest) {
+        BookBO bookBO = new BookBO(bookRequest);
         return bookService.addBook(bookBO);
-
     }
 
     /**
-     * @param name Name of the book
-     * @return true if book removed successfully, false otherwise
+     * @param bookId ID of the book
+     * @return message if book removed successfully or not
      * @apiNote Remove book
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/remove")
-    @ResponseBody
-    public Map<String, Boolean> removeBook(@RequestHeader String name) {
-        return bookService.removeBook(name);
+    @DeleteMapping("/{bookId}")
+    public ResponseEntity<String> removeBook(@PathVariable int bookId) {
+        return bookService.removeBook(bookId);
     }
 
     /**
-     * @return All authors
-     * @apiNote Get all authors
+     * @param bookId ID of the book
+     * @return message if book updated successfully or not
+     * @apiNote Update book
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @GetMapping("/getauthors")
-    @ResponseBody
-    public List<String> getAuthors() {
-        return bookService.getAuthors();
+    @PutMapping("/{bookId}")
+    public ResponseEntity<String> updateBook(@RequestHeader int bookId, @RequestBody BookRequest bookRequest) {
+
+        BookBO bookBO = new BookBO(bookRequest);
+
+        return bookService.updateBook(bookId, bookBO);
+
     }
 
     /**
@@ -76,10 +75,9 @@ public class BookController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @GetMapping("/getavailablebooks")
-    @ResponseBody
-    public List<String> getAvailableBooks() {
-        return bookService.getAvailableBookNames();
+    @GetMapping("/available")
+    public ResponseEntity<List<Book>> getAvailableBooks() {
+        return bookService.getAvailableBooks();
     }
 
     /**
@@ -89,23 +87,21 @@ public class BookController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/getdetails")
-    @ResponseBody
-    public Book getBookDetails(@RequestHeader String name) {
+    @GetMapping("/{name}")
+    public ResponseEntity<Book> getBookDetails(@PathVariable String name) {
         return bookService.getBookDetails(name);
     }
 
     /**
-     * @param bookID Unique ID of the book
+     * @param bookId Unique ID of the book
      * @return Details of the member who holds the book
      * @apiNote Get details of the member who holds the book
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/whoholds")
-    @ResponseBody
-    public Member whoHoldsTheBook(@RequestHeader int bookID) {
-        return bookService.whoHoldsTheBook(bookID);
+    @GetMapping("/{bookId}/holder")
+    public ResponseEntity<Member> whoHoldsTheBook(@PathVariable int bookId) {
+        return bookService.whoHoldsTheBook(bookId);
     }
 
     /**
@@ -114,40 +110,21 @@ public class BookController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @GetMapping("/getnames")
-    @ResponseBody
-    public List<String> getBookNames() {
+    @GetMapping("/names")
+    public ResponseEntity<List<String>> getBookNames() {
         return bookService.getBookNames();
     }
 
     /**
-     * @param name Name of the book
+     * @param bookId Name of the book
      * @return Book profile
      * @apiNote Get book profile
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/getprofile")
-    @ResponseBody
-    public BookProfile getBookProfile(@RequestHeader String name) {
-        return bookService.getBookProfile(name);
-    }
-
-    /**
-     * @param name Name of the book
-     * @return true if book updated successfully, false otherwise
-     * @apiNote Update book
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    @PostMapping("/update")
-    @ResponseBody
-    public Map<String, Boolean> updateBook(@RequestHeader int bookID, @RequestHeader String name, @RequestHeader String author, @RequestHeader String publication, @RequestHeader String genre) {
-
-        BookBO bookBO = new BookBO(name, author, publication, genre);
-
-        return bookService.updateBook(bookID, bookBO);
-
+    @GetMapping("/{bookId}/profile")
+    public ResponseEntity<BookProfile> getBookProfile(@PathVariable int bookId) {
+        return bookService.getBookProfile(bookId);
     }
 
 }

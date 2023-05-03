@@ -11,11 +11,6 @@ import java.security.NoSuchAlgorithmException;
 @Service
 public interface SettingsService {
 
-    /**
-     * @apiNote To change password
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    int changePassword(ChangePasswordBO changePasswordBO) throws NoSuchAlgorithmException;
+
 
 }

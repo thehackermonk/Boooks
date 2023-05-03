@@ -5,99 +5,63 @@ import com.hacker.boooks.bean.Book;
 import com.hacker.boooks.bean.BookProfile;
 import com.hacker.boooks.bean.Member;
 import com.hacker.boooks.bo.BookBO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * @apiNote Service class for everything related to book
+ * Service class for managing books.
  */
 @Service
 public interface BookService {
 
     /**
-     * @apiNote Add new book
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Retrieves an author profile for the given author name.
+     *
+     * @param author the name of the author
+     * @return a ResponseEntity containing an AuthorProfile object with the relevant fields
      */
-    Map<String, Boolean> addBook(BookBO bookBO);
+    ResponseEntity<AuthorProfile> getAuthorProfile(String author);
 
     /**
-     * @apiNote Update book details
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Returns a list of all the unique authors of books in the database.
+     *
+     * @return A ResponseEntity containing a list of author names if found, or a NOT_FOUND status if no authors were found.
      */
-    Map<String, Boolean> updateBook(int bookID, BookBO bookBO);
+    ResponseEntity<List<String>> getAuthors();
 
     /**
-     * @apiNote Remove book
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Fetches books written by a specific author.
+     *
+     * @param author The name of the author whose books are to be fetched.
+     * @return A ResponseEntity containing a list of Book objects representing the books written by the author.
      */
-    Map<String, Boolean> removeBook(String name);
+    ResponseEntity<List<Book>> getBooksWrittenBy(String author);
 
     /**
-     * @apiNote Get all authors
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Fetches the count of books written by a specific author grouped by genre.
+     *
+     * @param author The name of the author whose books are to be counted.
+     * @return A ResponseEntity containing a map of genre names and the count of books written by the author in that genre.
      */
-    List<String> getAuthors();
+    ResponseEntity<Map<String, Integer>> getGenreWiseBookCountByAuthor(String author);
 
-    /**
-     * @apiNote Get all books
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    List<String> getBookNames();
+    ResponseEntity<String> addBook(BookBO bookBO);
 
-    /**
-     * @apiNote Get all available books
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    List<String> getAvailableBookNames();
+    ResponseEntity<String> removeBook(int bookId);
 
-    /**
-     * @apiNote Get book details while name is provided
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    Book getBookDetails(String name);
+    ResponseEntity<String> updateBook(int bookId, BookBO bookBO);
 
-    /**
-     * @apiNote Profile of the book
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    BookProfile getBookProfile(String name);
+    ResponseEntity<List<Book>> getAvailableBooks();
 
-    /**
-     * @apiNote Find member who holds the book
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    Member whoHoldsTheBook(int bookID);
+    ResponseEntity<Book> getBookDetails(String name);
 
-    /**
-     * @apiNote Get author profile
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    AuthorProfile getAuthorProfile(String author);
+    ResponseEntity<Member> whoHoldsTheBook(int bookId);
 
-    /**
-     * @apiNote Get books written by the author
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    List<Book> getBooksWrittenBy(String author);
+    ResponseEntity<List<String>> getBookNames();
 
-    /**
-     * @apiNote Get genre wise book count written by the author
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    Map<String, Integer> getGenreWiseBookCountByAuthor(String author);
+    ResponseEntity<BookProfile> getBookProfile(int bookId);
 
 }

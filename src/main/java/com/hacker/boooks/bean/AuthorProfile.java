@@ -1,51 +1,19 @@
 package com.hacker.boooks.bean;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class AuthorProfile {
 
     private String name;
-    private int noOfBooksWritten;
-    private String favoriteGenre;
-    private Book mostReadBookBy;
+    private int numBooksWritten;
+    private String genreMostWritten;
+    private Book mostPopularBook;
 
-    public AuthorProfile() {
-    }
-
-    public AuthorProfile(String name, int noOfBooksWritten, String favoriteGenre, Book mostReadBookBy) {
-        this.name = name;
-        this.noOfBooksWritten = noOfBooksWritten;
-        this.favoriteGenre = favoriteGenre;
-        this.mostReadBookBy = mostReadBookBy;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getNoOfBooksWritten() {
-        return noOfBooksWritten;
-    }
-
-    public void setNoOfBooksWritten(int noOfBooksWritten) {
-        this.noOfBooksWritten = noOfBooksWritten;
-    }
-
-    public String getFavoriteGenre() {
-        return favoriteGenre;
-    }
-
-    public void setFavoriteGenre(String favoriteGenre) {
-        this.favoriteGenre = favoriteGenre;
-    }
-
-    public Book getMostReadBookBy() {
-        return mostReadBookBy;
-    }
-
-    public void setMostReadBookBy(Book mostReadBookBy) {
-        this.mostReadBookBy = mostReadBookBy;
-    }
 }

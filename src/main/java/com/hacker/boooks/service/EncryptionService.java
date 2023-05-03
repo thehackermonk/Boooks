@@ -10,11 +10,4 @@ import java.security.NoSuchAlgorithmException;
 @Service
 public interface EncryptionService {
 
-    /**
-     * @apiNote Get SHA-256 encryption of string
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    String encrypt(String password) throws NoSuchAlgorithmException;
-
 }

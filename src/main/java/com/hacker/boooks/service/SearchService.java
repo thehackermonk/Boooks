@@ -11,11 +11,4 @@ import java.util.List;
 @Service
 public interface SearchService {
 
-    /**
-     * @apiNote Search entire application
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    List<SearchResult> search(String keyword);
-
 }

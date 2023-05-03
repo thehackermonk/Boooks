@@ -4,10 +4,7 @@ import com.hacker.boooks.bean.Log;
 import com.hacker.boooks.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,8 +13,9 @@ import java.util.List;
  * @apiNote Controller class for logs
  * @since 1.0
  */
-@Controller
-@RequestMapping(value = "/boooks")
+@RestController
+@RequestMapping(value = "/logs")
+@CrossOrigin(origins = "*")
 @SuppressWarnings("unused")
 public class LogController {
 
@@ -30,13 +28,9 @@ public class LogController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @GetMapping("/logs")
-    @CrossOrigin(origins = "http://localhost:3000")
-    @ResponseBody
-    public List<Log> getLogs() {
-
-        return logService.getLogs();
-
-    }
+//    @GetMapping
+//    public List<Log> getLogs() {
+//        return logService.getLogs();
+//    }
 
 }

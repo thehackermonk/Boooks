@@ -2,21 +2,16 @@ package com.hacker.boooks.controller;
 
 import com.hacker.boooks.service.IssueService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.time.LocalDate;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author [@thehackermonk]
  * @apiNote Controller class for issue book
  * @since 1.0
  */
-@Controller
-@RequestMapping(value = "/boooks")
+@RestController
+@RequestMapping(value = "/books")
+@CrossOrigin(origins = "*")
 @SuppressWarnings("unused")
 public class IssueBookController {
 
@@ -31,12 +26,24 @@ public class IssueBookController {
      * @author [@thehackermonk]
      * @since 1.0
      */
-    @PostMapping("/issuebook")
-    @ResponseBody
-    public LocalDate issueBook(@RequestHeader String bookName, @RequestHeader int membershipID) {
+//    @PostMapping("/{bookId}/issue")
+//    public LocalDate issueBook(@RequestHeader String bookName, @RequestHeader int membershipID) {
+//
+//        return issueService.issueBook(bookName, membershipID);
+//
+//    }
 
-        return issueService.issueBook(bookName, membershipID);
-
-    }
+    /**
+     * @param membershipID Unique ID of the member
+     * @param bookID       Unique ID of the book
+     * @return Issue date, expected return date, return date, and fine
+     * @apiNote Return book
+     * @author [@thehackermonk]
+     * @since 1.0
+     */
+//    @PostMapping("/{bookId}/return")
+//    public ReturnBook returnBook(@RequestHeader int membershipID, @RequestHeader int bookID) {
+//        return returnService.returnBook(membershipID, bookID);
+//    }
 
 }
