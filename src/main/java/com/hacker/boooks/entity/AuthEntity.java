@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Table(name = "auth")
 public class AuthEntity {
     @Id
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String username;
     @Column(nullable = false)
     private String password;

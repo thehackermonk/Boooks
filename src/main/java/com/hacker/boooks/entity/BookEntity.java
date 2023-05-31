@@ -26,7 +26,7 @@ public class BookEntity {
     @Column(nullable = false)
     private Date publication;
     @Column(name = "is_available", nullable = false)
-    private Boolean isAvailable = false;
+    private Boolean isAvailable;
     private Integer holder;
 
 }
