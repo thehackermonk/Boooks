@@ -7,6 +7,9 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
+/**
+ * Book management service.
+ */
 public interface BookService {
 
     /**

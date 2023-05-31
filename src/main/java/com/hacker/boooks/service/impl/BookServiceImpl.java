@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Book service implementation.
+ * Book management service implementation.
  */
 @Service
 @RequiredArgsConstructor
@@ -88,6 +88,7 @@ public class BookServiceImpl implements BookService {
             book.setAuthor(bookEntity.getAuthor());
             book.setPublication(bookEntity.getPublication().toLocalDate());
             book.setAvailable(bookEntity.getIsAvailable());
+            book.setHolder(bookEntity.getHolder());
 
             log.debug("Retrieved book with ID {}: {}", bookId, book);
             return ResponseEntity.ok(book);

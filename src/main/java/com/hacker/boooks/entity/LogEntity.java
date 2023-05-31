@@ -24,7 +24,7 @@ public class LogEntity {
     @Column(name = "issue_date", nullable = false)
     private Date issueDate;
     @Column(name = "return_date")
-    private Date return_date;
+    private Date returnDate;
     private Float fine;
 
 }
