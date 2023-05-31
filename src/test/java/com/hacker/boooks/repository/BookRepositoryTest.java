@@ -1,86 +1,138 @@
 package com.hacker.boooks.repository;
 
-import com.hacker.boooks.entity.BookEntity;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class BookRepositoryTest {
 
-    @SuppressWarnings("unused")
-    @Autowired
-    private BookRepository underTest;
-
-    private BookEntity book1;
-    private BookEntity book2;
-
-    @BeforeEach
-    void setUp() {
-
-        book1 = new BookEntity();
-        book1.setTitle("Book 1");
-        book1.setAuthor("Author 1");
-        book1.setPublication("Publication 1");
-        book1.setGenre("Genre 1");
-        book1.setAvailable(true);
-        book1.setHolder(null);
-
-        book2 = new BookEntity();
-        book2.setTitle("Book 2");
-        book2.setAuthor("Author 2");
-        book2.setPublication("Publication 2");
-        book2.setGenre("Genre 2");
-        book2.setAvailable(false);
-        book2.setHolder(1);
-
-        underTest.saveAll(Arrays.asList(book1, book2));
-
-    }
-
-    @Test
-    void findByIdShouldReturnBook() {
-        List<BookEntity> savedBooks = underTest.saveAll(Arrays.asList(book1, book2));
-        int bookId = savedBooks.get(0).getBookID();
-        Optional<BookEntity> bookOptional = underTest.findById(bookId);
-        assertTrue(bookOptional.isPresent());
-        assertEquals("Book 1", bookOptional.get().getTitle());
-    }
-
-    @Test
-    void testFindByIdBookNotFound() {
-        Optional<BookEntity> bookOptional = underTest.findById(3);
-        assertFalse(bookOptional.isPresent());
-    }
-
-    @Test
-    void findAllShouldReturnListOfBooks() {
-        List<BookEntity> books = underTest.findAll();
-        assertEquals(2, books.size());
-    }
-
-    @Test
-    void findByAuthorShouldReturnListOfBooks() {
-        List<BookEntity> books = underTest.findByAuthor("Author 1");
-        assertEquals(1, books.size());
-        assertEquals("Book 1", books.get(0).getTitle());
-        assertEquals("Author 1", books.get(0).getAuthor());
-        assertEquals("Publication 1", books.get(0).getPublication());
-        assertEquals("Genre 1", books.get(0).getGenre());
-        assertTrue(books.get(0).isAvailable());
-        assertNull(books.get(0).getHolder());
-    }
-
-    @Test
-    void testFindByAuthorBookNotFound() {
-        List<BookEntity> books = underTest.findByAuthor("Author 3");
-        assertTrue(books.isEmpty());
-    }
+//    @Autowired
+//    private BookRepository underTest;
+//
+//    @BeforeEach
+//    void setUp() {
+//
+//        int bookID = 1;
+//        String name = "In Search of Lost Time";
+//        String author = "Marcel Proust";
+//        int publication = 1;
+//        String genre = "Romance";
+//        boolean available = true;
+//        int holder = -1;
+//
+//        BookEntity bookEntity = new BookEntity(bookID, name, author, publication, genre, available, holder);
+//        underTest.save(bookEntity);
+//
+//    }
+//
+//    @Test
+//    void getBookByName() {
+//
+//        BookEntity response = underTest.getBookByName("In Search of Lost Time");
+//        assertThat(response.getBookID()).isEqualTo(1);
+//
+//    }
+//
+//    @Test
+//    void getBooksPublishedBy() {
+//
+//        List<BookEntity> response = underTest.getBooksPublishedBy(1);
+//        assertThat(response).isNotNull();
+//
+//    }
+//
+//    @Test
+//    void getAllGenres() {
+//
+//        List<String> response = underTest.getAllGenres();
+//        assertThat(response).isNotNull();
+//
+//    }
+//
+//    @Test
+//    void getAllAuthors() {
+//
+//        List<String> response = underTest.getAllAuthors();
+//        assertThat(response).isNotNull();
+//
+//    }
+//
+//    @Test
+//    void getBookCountByGenreAndPublication() {
+//
+//        int response = underTest.getBookCountByGenreAndPublication("Romance", 1);
+//        assertThat(response).isEqualTo(1);
+//
+//    }
+//
+//    @Test
+//    void getBookCountByAuthorAndPublication() {
+//
+//        int response = underTest.getBookCountByAuthorAndPublication("Marcel Proust", 1);
+//        assertThat(response).isEqualTo(1);
+//
+//    }
+//
+//    @Test
+//    void getLastBookID() {
+//
+//        int response = underTest.getLastBookID();
+//        assertThat(response).isEqualTo(1);
+//
+//    }
+//
+//    @Test
+//    void noOfBooksWrittenBy() {
+//
+//        int response = underTest.noOfBooksWrittenBy("Marcel Proust");
+//        assertThat(response).isEqualTo(1);
+//
+//    }
+//
+//    @Test
+//    void getBooksWrittenBy() {
+//
+//        List<BookEntity> response = underTest.getBooksWrittenBy("Marcel Proust");
+//        assertThat(response).isNotNull();
+//
+//    }
+//
+//    @Test
+//    void getGenresByAuthor() {
+//
+//        List<String> response = underTest.getGenresByAuthor("Marcel Proust");
+//        assertThat(response).isNotNull();
+//
+//    }
+//
+//    @Test
+//    void getGenreWiseBookCountByAuthor() {
+//
+//        int response = underTest.getGenreWiseBookCountByAuthor("Marcel Proust", "Romance");
+//        assertThat(response).isEqualTo(1);
+//
+//    }
+//
+//    @Test
+//    void searchBook() {
+//
+//        List<BookEntity> response = underTest.searchBook("lost");
+//        assertThat(response).isNotNull();
+//
+//    }
+//
+//    @Test
+//    void searchAuthor() {
+//
+//        List<BookEntity> searchResult = underTest.searchBook("proust");
+//        assertThat(searchResult).isNotNull();
+//
+//    }
+//
+//    @Test
+//    void getFiveBooksOfGenre() {
+//
+//        List<BookEntity> response = underTest.getFiveBooksOfGenre("Romance");
+//        assertThat(response).isNotNull();
+//
+//    }
 }

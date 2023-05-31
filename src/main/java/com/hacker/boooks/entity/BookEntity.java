@@ -1,28 +1,32 @@
 package com.hacker.boooks.entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name = "book")
-@NoArgsConstructor
-@AllArgsConstructor
+import java.sql.Date;
+
 @Getter
 @Setter
+@Entity
+@Table(name = "book")
 public class BookEntity {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "book_id")
-    int bookID;
-    String title;
-    String author;
-    String publication;
-    String genre;
-    boolean available;
-    Integer holder;
+    @Column(name = "book_id", nullable = false)
+    private Integer bookId;
+    @Column(nullable = false)
+    private String title;
+    @Column(nullable = false)
+    private String author;
+    @Column(nullable = false)
+    private String genre;
+    @Column(nullable = false)
+    private Date publication;
+    @Column(name = "is_available", nullable = false)
+    private Boolean isAvailable = false;
+    private Integer holder;
 
 }

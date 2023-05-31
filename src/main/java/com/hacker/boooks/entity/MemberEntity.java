@@ -1,31 +1,25 @@
 package com.hacker.boooks.entity;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.sql.Date;
-
-@Entity
-@Table(name = "member")
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@Entity
+@Table(name = "member")
 public class MemberEntity {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "membership_id")
-    int membershipId;
-    String name;
-    @Column(name = "date_of_birth")
-    Date dateOfBirth;
-    String email;
-    String contact;
-    @Column(name = "favorite_genre")
-    String favoriteGenre;
+    @Column(name = "member_id", nullable = false)
+    private Integer memberId;
+    @Column(nullable = false)
+    private String name;
+    @Column(nullable = false)
+    private String email;
+    @Column(name = "phone_number", nullable = false)
+    private String phoneNumber;
 
 }
