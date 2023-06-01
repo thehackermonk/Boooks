@@ -1,9 +1,11 @@
 package com.hacker.boooks.service;
 
+import com.hacker.boooks.bean.Book;
 import com.hacker.boooks.bean.Member;
 import com.hacker.boooks.bean.MemberBO;
 import com.hacker.boooks.bean.MemberProfile;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -59,5 +61,13 @@ public interface MemberService {
      * @return ResponseEntity with a success message if the member is deleted successfully, or a not found response if the member ID is invalid.
      */
     ResponseEntity<String> deleteMember(int memberId);
+
+    /**
+     * Retrieves the books currently held by a member.
+     *
+     * @param memberId the ID of the member
+     * @return ResponseEntity containing the list of books currently held by the member
+     */
+    ResponseEntity<List<Book>> getBooksForMember(int memberId);
 
 }

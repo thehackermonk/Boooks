@@ -5,15 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class MemberProfile {
-    private String name;
-    private String email;
-    private String phoneNumber;
-    private List<Book> currentlyHolding;
+public class IssueResponse {
+    LocalDate expectedReturnDate;
 }

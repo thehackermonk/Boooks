@@ -1,5 +1,6 @@
 package com.hacker.boooks.controller;
 
+import com.hacker.boooks.bean.Book;
 import com.hacker.boooks.bean.Member;
 import com.hacker.boooks.bean.MemberBO;
 import com.hacker.boooks.bean.MemberProfile;
@@ -60,6 +61,12 @@ public class MemberController {
     @Operation(summary = "Delete a member", description = "Delete a member from the library based on their unique ID.")
     public ResponseEntity<String> deleteMember(@PathVariable int memberId) {
         return memberService.deleteMember(memberId);
+    }
+
+    @GetMapping("/{memberId}/books")
+    @Operation(summary = "Get books currently held by a member", description = "Retrieve a list of books currently held by a member in the library. It returns information such as book titles, authors, publication dates, availability, and the member's ID.")
+    public ResponseEntity<List<Book>> getBooksForMember(@PathVariable int memberId) {
+        return memberService.getBooksForMember(memberId);
     }
 
 }

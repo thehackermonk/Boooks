@@ -31,12 +31,8 @@ public class LogServiceImpl implements LogService {
      */
     public ResponseEntity<List<Log>> getLogs() {
 
-        log.info("Inside log method");
-
-//        try {
-        log.info("DB size: " + logRepository.findAll().size());
+        try {
             List<LogEntity> logEntities = logRepository.findAll();
-            log.info("Retrieved {} book logs", logEntities.size());
             List<Log> logs = new ArrayList<>();
 
             for (LogEntity logEntity : logEntities) {
@@ -54,10 +50,10 @@ public class LogServiceImpl implements LogService {
             log.info("Retrieved {} book logs", logs.size());
 
             return ResponseEntity.ok(logs);
-//        } catch (Exception e) {
-//            log.error("Error occurred while retrieving book logs: {}", e.getMessage());
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
+        } catch (Exception e) {
+            log.error("Error occurred while retrieving book logs: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }

@@ -112,12 +112,13 @@ public class MemberServiceImpl implements MemberService {
             memberProfile.setEmail(memberEntity.getEmail());
             memberProfile.setPhoneNumber(memberEntity.getPhoneNumber());
 
-            Optional<LogEntity> optionalLogEntity = logRepository.findByMemberIdAndReturnDateIsNull(memberId);
-
-            if (optionalLogEntity.isEmpty()) {
-                memberProfile.setCurrentlyHolding(null);
-            } else {
-                LogEntity logEntity = optionalLogEntity.get();
+            List<LogEntity> logEntities = logRepository.findByMemberIdAndReturnDateIsNull(memberId);
+            if (logEntities.isEmpty()) {
+                log.debug("Member with ID {} doesn't hold any books", memberId);
+                return ResponseEntity.notFound().build();
+            }
+            List<Book> currentlyHoldingBooks = new ArrayList<>();
+            for (LogEntity logEntity : logEntities) {
                 Optional<BookEntity> optionalBookEntity = bookRepository.findById(logEntity.getBookId());
                 if (optionalBookEntity.isPresent()) {
                     BookEntity bookEntity = optionalBookEntity.get();
@@ -128,10 +129,10 @@ public class MemberServiceImpl implements MemberService {
                     book.setPublication(bookEntity.getPublication().toLocalDate());
                     book.setAvailable(bookEntity.getIsAvailable());
                     book.setHolder(bookEntity.getHolder());
-
-                    memberProfile.setCurrentlyHolding(book);
+                    currentlyHoldingBooks.add(book);
                 }
             }
+            memberProfile.setCurrentlyHolding(currentlyHoldingBooks);
             log.info("Member profile fetched for ID: {}", memberId);
             return ResponseEntity.ok(memberProfile);
         } catch (Exception e) {
@@ -225,6 +226,47 @@ public class MemberServiceImpl implements MemberService {
             return ResponseEntity.ok("Member deleted successfully");
         } catch (Exception e) {
             log.error("Error occurred while deleting the member: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * Retrieves the books currently held by a member.
+     *
+     * @param memberId the ID of the member
+     * @return ResponseEntity containing the list of books currently held by the member
+     */
+    @Override
+    public ResponseEntity<List<Book>> getBooksForMember(int memberId) {
+        try {
+            List<LogEntity> logEntities = logRepository.findByMemberIdAndReturnDateIsNull(memberId);
+            if (logEntities.isEmpty()) {
+                log.debug("Member with ID {} doesn't hold any books", memberId);
+                return ResponseEntity.notFound().build();
+            }
+
+            List<Book> currentlyHoldingBooks = new ArrayList<>();
+
+            for (LogEntity logEntity : logEntities) {
+                Optional<BookEntity> optionalBookEntity = bookRepository.findById(logEntity.getBookId());
+
+                if (optionalBookEntity.isPresent()) {
+                    BookEntity bookEntity = optionalBookEntity.get();
+                    Book book = new Book();
+                    book.setBookId(bookEntity.getBookId());
+                    book.setTitle(bookEntity.getTitle());
+                    book.setAuthor(bookEntity.getAuthor());
+                    book.setPublication(bookEntity.getPublication().toLocalDate());
+                    book.setAvailable(bookEntity.getIsAvailable());
+                    book.setHolder(bookEntity.getHolder());
+                    currentlyHoldingBooks.add(book);
+                }
+            }
+
+            log.info("Number of books currently held by member with ID {}: {}", memberId, currentlyHoldingBooks.size());
+            return ResponseEntity.ok(currentlyHoldingBooks);
+        } catch (Exception e) {
+            log.error("Failed to retrieve books currently held by member with ID {}", memberId, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
