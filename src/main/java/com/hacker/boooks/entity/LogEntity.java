@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -16,11 +17,11 @@ import java.sql.Date;
 public class LogEntity {
     @Id
     @Column(name = "log_id", nullable = false)
-    private Integer logId;
+    private int logId;
     @Column(name = "book_id", nullable = false)
-    private Integer bookId;
+    private int bookId;
     @Column(name = "member_id", nullable = false)
-    private Integer memberId;
+    private int memberId;
     @Column(name = "issue_date", nullable = false)
     private Date issueDate;
     @Column(name = "return_date")
