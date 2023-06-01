@@ -61,6 +61,22 @@ public interface BookService {
      */
     ResponseEntity<String> deleteBook(int bookId);
 
+    /**
+     * Get the list of authors.
+     *
+     * @return The list of authors.
+     */
+    ResponseEntity<List<String>> getAuthors();
+
+    /**
+     * Get the profile of an author based on their name.
+     * This API provides information such as the author's name, the number of books written by the author,
+     * the most written genre by the author, a list of books written by the author, and the most read book
+     * by the author's audience.
+     *
+     * @param name The name of the author.
+     * @return The author's profile.
+     */
     ResponseEntity<AuthorProfile> getAuthorProfile(String name);
 
 }
