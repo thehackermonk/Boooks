@@ -227,62 +227,59 @@ public class BookServiceImpl implements BookService {
         }
     }
 
+    /**
+     * Get the list of authors.
+     *
+     * @return The list of authors.
+     */
+    @Override
+    public ResponseEntity<List<String>> getAuthors() {
+        try {
+            List<BookEntity> bookEntities = bookRepository.findAll();
+            if (bookEntities.isEmpty()) {
+                log.debug("No authors found");
+                return ResponseEntity.notFound().build();
+            }
+
+            List<String> authors = bookEntities.stream()
+                    .map(BookEntity::getAuthor)
+                    .distinct()
+                    .toList();
+
+            log.debug("Authors fetched successfully");
+            return ResponseEntity.ok(authors);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching authors: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    /**
+     * Get the profile of an author based on their name.
+     * This API provides information such as the author's name, the number of books written by the author,
+     * the most written genre by the author, a list of books written by the author, and the most read book
+     * by the author's audience.
+     *
+     * @param name The name of the author.
+     * @return The author's profile.
+     */
     @Override
     public ResponseEntity<AuthorProfile> getAuthorProfile(String name) {
 
-        AuthorProfile authorProfile = new AuthorProfile();
-        List<Book> books = new ArrayList<>();
+        try {
+            AuthorProfile authorProfile = new AuthorProfile();
+            List<Book> books = new ArrayList<>();
 
-        List<BookEntity> booksByAuthor = bookRepository.findByAuthor(name);
-        if (booksByAuthor.isEmpty())
-            return ResponseEntity.notFound().build();
+            List<BookEntity> booksByAuthor = bookRepository.findByAuthor(name);
+            if (booksByAuthor.isEmpty()) {
+                log.debug("No books found for author: {}", name);
+                return ResponseEntity.notFound().build();
+            }
 
-        authorProfile.setName(name);
-        authorProfile.setNoOfBooksWritten(booksByAuthor.size());
+            authorProfile.setName(name);
+            authorProfile.setNoOfBooksWritten(booksByAuthor.size());
 
-        for (BookEntity bookEntity : booksByAuthor) {
-            Book book = new Book();
-            book.setBookId(bookEntity.getBookId());
-            book.setTitle(bookEntity.getTitle());
-            book.setAuthor(bookEntity.getAuthor());
-            book.setGenre(bookEntity.getGenre());
-            book.setPublication(bookEntity.getPublication().toLocalDate());
-            book.setAvailable(bookEntity.getIsAvailable());
-            books.add(book);
-        }
-
-        authorProfile.setBooksWritten(books);
-
-        // Count the occurrences of each genre
-        Map<String, Long> genreCounts = booksByAuthor.stream()
-                .collect(Collectors.groupingBy(BookEntity::getGenre, Collectors.counting()));
-
-        // Find the genre with the highest count
-        String mostOccurringGenre = genreCounts.entrySet().stream()
-                .max(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey)
-                .orElse(null);
-
-        authorProfile.setMostWrittenGenre(mostOccurringGenre);
-
-        List<LogEntity> logsByAuthorBooks = logRepository.findByBookIdIn(
-                booksByAuthor.stream()
-                        .map(BookEntity::getBookId)
-                        .toList()
-        );
-
-        Map<Integer, Long> bookCounts = logsByAuthorBooks.stream()
-                .collect(Collectors.groupingBy(LogEntity::getBookId, Collectors.counting()));
-
-        Integer mostOccurringBookId = bookCounts.entrySet().stream()
-                .max(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey)
-                .orElse(null);
-
-        if (mostOccurringBookId != null) {
-            Optional<BookEntity> optionalBookEntity = bookRepository.findById(mostOccurringBookId);
-            if (optionalBookEntity.isPresent()) {
-                BookEntity bookEntity = optionalBookEntity.get();
+            for (BookEntity bookEntity : booksByAuthor) {
                 Book book = new Book();
                 book.setBookId(bookEntity.getBookId());
                 book.setTitle(bookEntity.getTitle());
@@ -290,17 +287,58 @@ public class BookServiceImpl implements BookService {
                 book.setGenre(bookEntity.getGenre());
                 book.setPublication(bookEntity.getPublication().toLocalDate());
                 book.setAvailable(bookEntity.getIsAvailable());
-                authorProfile.setMostReadBook(book);
+                books.add(book);
             }
+
+            authorProfile.setBooksWritten(books);
+
+            // Count the occurrences of each genre
+            Map<String, Long> genreCounts = booksByAuthor.stream()
+                    .collect(Collectors.groupingBy(BookEntity::getGenre, Collectors.counting()));
+
+            // Find the genre with the highest count
+            String mostOccurringGenre = genreCounts.entrySet().stream()
+                    .max(Map.Entry.comparingByValue())
+                    .map(Map.Entry::getKey)
+                    .orElse(null);
+
+            authorProfile.setMostWrittenGenre(mostOccurringGenre);
+
+            List<LogEntity> logsByAuthorBooks = logRepository.findByBookIdIn(
+                    booksByAuthor.stream()
+                            .map(BookEntity::getBookId)
+                            .toList()
+            );
+
+            Map<Integer, Long> bookCounts = logsByAuthorBooks.stream()
+                    .collect(Collectors.groupingBy(LogEntity::getBookId, Collectors.counting()));
+
+            Integer mostOccurringBookId = bookCounts.entrySet().stream()
+                    .max(Map.Entry.comparingByValue())
+                    .map(Map.Entry::getKey)
+                    .orElse(null);
+
+            if (mostOccurringBookId != null) {
+                Optional<BookEntity> optionalBookEntity = bookRepository.findById(mostOccurringBookId);
+                if (optionalBookEntity.isPresent()) {
+                    BookEntity bookEntity = optionalBookEntity.get();
+                    Book book = new Book();
+                    book.setBookId(bookEntity.getBookId());
+                    book.setTitle(bookEntity.getTitle());
+                    book.setAuthor(bookEntity.getAuthor());
+                    book.setGenre(bookEntity.getGenre());
+                    book.setPublication(bookEntity.getPublication().toLocalDate());
+                    book.setAvailable(bookEntity.getIsAvailable());
+                    authorProfile.setMostReadBook(book);
+                }
+            }
+
+            log.debug("Author profile retrieved for author: {}", name);
+            return ResponseEntity.ok(authorProfile);
+        } catch (Exception e) {
+            log.error("Error occurred while fetching author profile: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
-//        private String name;
-//        private int noOfBooksWritten;
-//        private String mostWrittenGenre;
-//        private List<Book> booksWritten;
-//        private Book mostReadBook;
-
-        return ResponseEntity.ok(authorProfile);
     }
 
 }

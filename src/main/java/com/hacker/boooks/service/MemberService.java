@@ -5,7 +5,6 @@ import com.hacker.boooks.bean.Member;
 import com.hacker.boooks.bean.MemberBO;
 import com.hacker.boooks.bean.MemberProfile;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
