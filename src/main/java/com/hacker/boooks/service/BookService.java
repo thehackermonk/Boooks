@@ -2,102 +2,65 @@ package com.hacker.boooks.service;
 
 import com.hacker.boooks.bean.AuthorProfile;
 import com.hacker.boooks.bean.Book;
+import com.hacker.boooks.bean.BookBO;
 import com.hacker.boooks.bean.BookProfile;
-import com.hacker.boooks.bean.Member;
-import com.hacker.boooks.bo.BookBO;
-import org.springframework.stereotype.Service;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * @apiNote Service class for everything related to book
+ * Book management service.
  */
-@Service
 public interface BookService {
 
     /**
-     * @apiNote Add new book
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Retrieves a list of books.
+     *
+     * @return ResponseEntity containing the list of books
      */
-    Map<String, Boolean> addBook(BookBO bookBO);
+    ResponseEntity<List<Book>> getBooks();
 
     /**
-     * @apiNote Update book details
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Retrieves a book by ID.
+     *
+     * @param bookId the ID of the book to retrieve
+     * @return ResponseEntity containing the book if found, or not found response if not found
      */
-    Map<String, Boolean> updateBook(int bookID, BookBO bookBO);
+    ResponseEntity<Book> getBook(int bookId);
 
     /**
-     * @apiNote Remove book
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Retrieves the profile of a book.
+     *
+     * @param bookId the ID of the book to retrieve the profile for
+     * @return ResponseEntity containing the book profile if found, or not found response if not found
      */
-    Map<String, Boolean> removeBook(String name);
+    ResponseEntity<BookProfile> getBookProfile(int bookId);
 
     /**
-     * @apiNote Get all authors
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Adds a new book to the library.
+     *
+     * @param bookBO the book business object containing the details of the book to be added
+     * @return ResponseEntity indicating the success or failure of the book addition
      */
-    List<String> getAuthors();
+    ResponseEntity<String> addBook(BookBO bookBO);
 
     /**
-     * @apiNote Get all books
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Updates a book in the library.
+     *
+     * @param bookId the ID of the book to be updated
+     * @param bookBO the book business object containing the updated details
+     * @return ResponseEntity indicating the success or failure of the book update
      */
-    List<String> getBookNames();
+    ResponseEntity<String> updateBook(int bookId, BookBO bookBO);
 
     /**
-     * @apiNote Get all available books
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Deletes a book from the library.
+     *
+     * @param bookId the ID of the book to be deleted
+     * @return ResponseEntity indicating the success or failure of the book deletion
      */
-    List<String> getAvailableBookNames();
+    ResponseEntity<String> deleteBook(int bookId);
 
-    /**
-     * @apiNote Get book details while name is provided
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    Book getBookDetails(String name);
-
-    /**
-     * @apiNote Profile of the book
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    BookProfile getBookProfile(String name);
-
-    /**
-     * @apiNote Find member who holds the book
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    Member whoHoldsTheBook(int bookID);
-
-    /**
-     * @apiNote Get author profile
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    AuthorProfile getAuthorProfile(String author);
-
-    /**
-     * @apiNote Get books written by the author
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    List<Book> getBooksWrittenBy(String author);
-
-    /**
-     * @apiNote Get genre wise book count written by the author
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    Map<String, Integer> getGenreWiseBookCountByAuthor(String author);
+    ResponseEntity<AuthorProfile> getAuthorProfile(String name);
 
 }

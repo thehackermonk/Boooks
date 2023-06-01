@@ -1,21 +1,18 @@
 package com.hacker.boooks.service;
 
-import com.hacker.boooks.bean.SearchResult;
-import org.springframework.stereotype.Service;
+import com.hacker.boooks.bean.SearchResponse;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-/**
- * @apiNote Service class for search
- */
-@Service
 public interface SearchService {
 
     /**
-     * @apiNote Search entire application
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Search for book Ids and member Ids based on the provided keyword.
+     *
+     * @param keyword The keyword to search for.
+     * @return ResponseEntity containing a list of SearchResponse objects.
      */
-    List<SearchResult> search(String keyword);
+    ResponseEntity<List<SearchResponse>> search(String keyword);
 
 }

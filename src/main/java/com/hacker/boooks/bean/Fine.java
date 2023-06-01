@@ -5,15 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class MemberProfile {
-    private String name;
-    private String email;
-    private String phoneNumber;
-    private List<Book> currentlyHolding;
+public class Fine {
+
+    private int daysOverdue;
+    private float amount;
+
 }

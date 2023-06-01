@@ -1,20 +1,30 @@
 package com.hacker.boooks.service;
 
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
+import com.hacker.boooks.bean.IssueResponse;
+import com.hacker.boooks.bean.ReturnResponse;
+import org.springframework.http.ResponseEntity;
 
 /**
- * @apiNote Service class for issuing book
+ * Book issue management service.
  */
-@Service
 public interface IssueService {
 
     /**
-     * @apiNote Issue book
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Issues a book to a member and returns the expected return date.
+     *
+     * @param bookId   The ID of the book to be issued.
+     * @param memberId The ID of the member to whom the book is issued.
+     * @return ResponseEntity containing the issue response with the expected return date.
      */
-    LocalDate issueBook(String bookName, int membershipID);
+    ResponseEntity<IssueResponse> issueBook(int bookId, int memberId);
+
+    /**
+     * Returns a book and calculates the fine (if any) for the given book and member.
+     *
+     * @param bookId   The ID of the book to be returned.
+     * @param memberId The ID of the member returning the book.
+     * @return ResponseEntity containing the return response with details such as return date, expected return date, and total fine (if applicable).
+     */
+    ResponseEntity<ReturnResponse> returnBook(int bookId, int memberId);
 
 }

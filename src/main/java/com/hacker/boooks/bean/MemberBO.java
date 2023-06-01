@@ -5,15 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class MemberProfile {
+public class MemberBO {
     private String name;
     private String email;
     private String phoneNumber;
-    private List<Book> currentlyHolding;
 }

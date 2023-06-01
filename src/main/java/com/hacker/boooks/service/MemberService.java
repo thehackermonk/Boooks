@@ -2,79 +2,72 @@ package com.hacker.boooks.service;
 
 import com.hacker.boooks.bean.Book;
 import com.hacker.boooks.bean.Member;
-import com.hacker.boooks.bo.MemberBO;
-import org.springframework.stereotype.Service;
+import com.hacker.boooks.bean.MemberBO;
+import com.hacker.boooks.bean.MemberProfile;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * @apiNote Service class for everything related to member
+ * Member management service.
  */
-@Service
 public interface MemberService {
 
     /**
-     * @apiNote Get member details
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Get all members.
+     *
+     * @return ResponseEntity containing a list of all members
      */
-    Member getMemberDetails(int membershipID);
+    ResponseEntity<List<Member>> getMembers();
 
     /**
-     * @apiNote Add new member
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Get a member by ID.
+     *
+     * @param memberId the ID of the member to retrieve
+     * @return ResponseEntity containing the member information if found, or not found response if not found
      */
-    Map<String, Boolean> addMember(MemberBO memberBO);
+    ResponseEntity<Member> getMember(int memberId);
 
     /**
-     * @apiNote To check if contact is unused
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Get the profile of a member.
+     *
+     * @param memberId the ID of the member
+     * @return ResponseEntity containing the member profile if found, or not found response if not found
      */
-    Map<String, Boolean> checkContact(String contact);
+    ResponseEntity<MemberProfile> getMemberProfile(int memberId);
 
     /**
-     * @apiNote To check if email ID is unused
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Adds a new member to the library.
+     *
+     * @param memberBO The MemberBO object containing the member details to be added.
+     * @return ResponseEntity with a success message if the member is added successfully, or an error response if an exception occurs.
      */
-    Map<String, Boolean> checkEmail(String email);
+    ResponseEntity<String> addMember(MemberBO memberBO);
 
     /**
-     * @apiNote Update member
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Updates the details of a member in the library.
+     *
+     * @param memberId The ID of the member to be updated.
+     * @param memberBO The MemberBO object containing the updated member details.
+     * @return ResponseEntity with a success message if the member is updated successfully, or a not found response if the member ID is invalid.
      */
-    Map<String, Boolean> updateMember(int membershipID, MemberBO memberBO);
+    ResponseEntity<String> updateMember(int memberId, MemberBO memberBO);
 
     /**
-     * @apiNote Remove member
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Deletes a member from the library.
+     *
+     * @param memberId The ID of the member to be deleted.
+     * @return ResponseEntity with a success message if the member is deleted successfully, or a not found response if the member ID is invalid.
      */
-    Map<String, Boolean> removeMember(int membershipID);
+    ResponseEntity<String> deleteMember(int memberId);
 
     /**
-     * @apiNote Get books which a member is holding
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Retrieves the books currently held by a member.
+     *
+     * @param memberId the ID of the member
+     * @return ResponseEntity containing the list of books currently held by the member
      */
-    List<Book> getBooksHoldingByMember(int membershipID);
-
-    /**
-     * @apiNote Get membership IDs
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    List<Integer> getMembershipIDs();
-
-    /**
-     * @apiNote Get count of books read genre-wise
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    Map<String, Integer> getBookCountGenreWise(int membershipID);
+    ResponseEntity<List<Book>> getBooksForMember(int memberId);
 
 }

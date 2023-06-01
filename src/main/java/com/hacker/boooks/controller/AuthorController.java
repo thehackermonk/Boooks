@@ -1,68 +1,29 @@
 package com.hacker.boooks.controller;
 
 import com.hacker.boooks.bean.AuthorProfile;
-import com.hacker.boooks.bean.Book;
 import com.hacker.boooks.service.BookService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-
-/**
- * @author [@thehackermonk]
- * @apiNote Controller class for everything related to book
- * @since 1.0
- */
-@Controller
-@RequestMapping(value = "/boooks/author")
+@RestController
+@RequestMapping("/author")
+@Tag(name = "Author Management", description = "APIs for managing authors")
+@CrossOrigin(origins = "http://localhost:3000")
+@Slf4j
 @SuppressWarnings("unused")
 public class AuthorController {
 
     @Autowired
     private BookService bookService;
 
-    /**
-     * @param author Name of the author
-     * @return Author profile
-     * @apiNote Get author profile
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    @PostMapping("/getprofile")
-    @ResponseBody
-    public AuthorProfile getAuthorProfile(@RequestHeader String author) {
-        return bookService.getAuthorProfile(author);
-    }
-
-    /**
-     * @param author Name of the author
-     * @return Details of books written by the author
-     * @apiNote Get books written by the author
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    @PostMapping("/getBooksWrittenBy")
-    @ResponseBody
-    public List<Book> getBooksWrittenBy(@RequestHeader String author) {
-        return bookService.getBooksWrittenBy(author);
-    }
-
-    /**
-     * @param author Name of the author
-     * @return Genre wise book count written by the author
-     * @apiNote Get genre wise book count written by the author
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    @PostMapping("/getGenreWiseBookCount")
-    @ResponseBody
-    public Map<String, Integer> getGenreWiseBookCountByAuthor(@RequestHeader String author) {
-        return bookService.getGenreWiseBookCountByAuthor(author);
+    @GetMapping("/{name}/profile")
+    @Operation(summary = "Get author Profile", description = "This API allows you to retrieve the profile of an author based on their name. It provides information such as the author's name, the number of books written by the author, the most written genre by the author, a list of books written by the author, and the most read book by the author's audience. Use this API to gain insights into an author's background and literary accomplishments.")
+    public ResponseEntity<AuthorProfile> getAuthorProfile(@PathVariable String name) {
+        return bookService.getAuthorProfile(name);
     }
 
 }

@@ -1,51 +1,23 @@
 package com.hacker.boooks.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "fine")
 public class FineEntity {
-
     @Id
-    @Column(name = "sl_no")
-    int slNo;
-    @Column(name = "days_for_fine")
-    int daysForFine;
-    float amount;
+    @Column(name = "sl_no", nullable = false)
+    private Integer slNo;
+    @Column(name = "days_overdue", nullable = false)
+    private Integer daysOverdue;
+    @Column(name = "fine_amount", nullable = false)
+    private Float fineAmount;
 
-    public FineEntity() {
-    }
-
-    public FineEntity(int slNo, int daysForFine, float amount) {
-        this.slNo = slNo;
-        this.daysForFine = daysForFine;
-        this.amount = amount;
-    }
-
-    public int getSlNo() {
-        return slNo;
-    }
-
-    public void setSlNo(int slNo) {
-        this.slNo = slNo;
-    }
-
-    public int getDaysForFine() {
-        return daysForFine;
-    }
-
-    public void setDaysForFine(int daysForFine) {
-        this.daysForFine = daysForFine;
-    }
-
-    public float getAmount() {
-        return amount;
-    }
-
-    public void setAmount(float amount) {
-        this.amount = amount;
-    }
 }

@@ -1,38 +1,34 @@
 package com.hacker.boooks.service;
 
-import org.springframework.stereotype.Service;
+import com.hacker.boooks.bean.Fine;
+import org.springframework.http.ResponseEntity;
 
-import java.util.Map;
-
-@Service
+/**
+ * Log management service.
+ */
 public interface FineService {
 
     /**
-     * @apiNote No. of days after which fine should be charged
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Retrieves the current fine details from the system.
+     *
+     * @return ResponseEntity containing the Fine details
      */
-    int getDaysAfterFineIsCharged();
+    ResponseEntity<Fine> getFineDetails();
 
     /**
-     * @apiNote Fine per day
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Sets the number of days after which fine should be collected.
+     *
+     * @param days The number of days for fine collection
+     * @return ResponseEntity indicating the success of the operation
      */
-    float getFineAmount();
+    ResponseEntity<String> setDaysForFine(int days);
 
     /**
-     * @apiNote Set no. of days after which fine should be charged
-     * @author [@thehackermonk]
-     * @since 1.0
+     * Sets the amount to be collected as fine.
+     *
+     * @param amount The amount to be set as fine
+     * @return ResponseEntity indicating the success of the operation
      */
-    Map<String, Boolean> setDaysForFine(int days);
-
-    /**
-     * @apiNote Set amount
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    Map<String, Boolean> setAmount(float amount);
+    ResponseEntity<String> setAmountForFine(float amount);
 
 }

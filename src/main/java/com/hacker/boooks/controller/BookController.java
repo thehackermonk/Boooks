@@ -1,153 +1,70 @@
 package com.hacker.boooks.controller;
 
 import com.hacker.boooks.bean.Book;
+import com.hacker.boooks.bean.BookBO;
 import com.hacker.boooks.bean.BookProfile;
-import com.hacker.boooks.bean.Member;
-import com.hacker.boooks.bo.BookBO;
 import com.hacker.boooks.service.BookService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
-/**
- * @author [@thehackermonk]
- * @apiNote Controller class for everything related to book
- * @since 1.0
- */
-@Controller
-@RequestMapping(value = "/boooks/book")
+@RestController
+@RequestMapping("/books")
+@Tag(name = "Book Management", description = "APIs for managing books")
+@CrossOrigin(origins = "http://localhost:3000")
+@Slf4j
 @SuppressWarnings("unused")
 public class BookController {
 
     @Autowired
     private BookService bookService;
 
-    /**
-     * @param name        Name of the book
-     * @param author      Author of the book
-     * @param publication Publication of the book
-     * @param genre       Genre of the book
-     * @return true if book added successfully, false otherwise
-     * @apiNote Add book
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    @PostMapping("/add")
-    @ResponseBody
-    public Map<String, Boolean> addBook(@RequestHeader String name, @RequestHeader String author, @RequestHeader String publication, @RequestHeader String genre) {
+    @GetMapping("")
+    @Operation(summary = "Get all books", description = "This API allows you to retrieve a list of all books available in the library. It returns information such as book titles, authors, and availability.")
+    public ResponseEntity<List<Book>> getBooks() {
+        return bookService.getBooks();
+    }
 
-        BookBO bookBO = new BookBO(name, author, publication, genre);
+    @GetMapping("/{bookId}")
+    @Operation(summary = "Get a book by ID", description = "This API allows you to retrieve a list of all books available in the library. It returns information such as book titles, authors, and availability.")
+    public ResponseEntity<Book> getBook(@PathVariable int bookId) {
+        return bookService.getBook(bookId);
+    }
 
+    @GetMapping("/{bookId}/profile")
+    @Operation(summary = "Get book profile", description = "This API provides a comprehensive profile of a specific book. It includes detailed information about the book, such as the title, author, genre, publication date, ISBN, availability, and any additional details.")
+    public ResponseEntity<BookProfile> getBookProfile(@PathVariable int bookId) {
+        return bookService.getBookProfile(bookId);
+    }
+
+    @PostMapping("")
+    @Operation(summary = "Add a new book", description = "Use this API to add a new book to the library database. You need to provide the necessary details of the book, including the title, author, genre, publication date, and any other relevant information. After successful execution, the book will be added to the library collection.")
+    public ResponseEntity<String> addBook(@RequestParam String title, @RequestParam String author, @RequestParam String genre, @Parameter(example = "2023-05-30") @RequestParam String publishedOn) {
+        LocalDate publishedDate = LocalDate.parse(publishedOn, DateTimeFormatter.ISO_DATE);
+        BookBO bookBO = new BookBO(title, author, genre, publishedDate);
         return bookService.addBook(bookBO);
-
     }
 
-    /**
-     * @param name Name of the book
-     * @return true if book removed successfully, false otherwise
-     * @apiNote Remove book
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    @PostMapping("/remove")
-    @ResponseBody
-    public Map<String, Boolean> removeBook(@RequestHeader String name) {
-        return bookService.removeBook(name);
+    @PutMapping("/{bookId}")
+    @Operation(summary = "Update book details", description = "This API allows you to update the details of a specific book. You need to provide the book's ID along with the updated information, such as the title, author, genre, publication date, or any other relevant fields. After executing the request, the book's details will be updated in the library system.")
+    public ResponseEntity<String> updateBook(@PathVariable int bookId, @RequestParam String title, @RequestParam String author, @RequestParam String genre, @RequestParam String publishedOn) {
+        LocalDate publishedDate = LocalDate.parse(publishedOn, DateTimeFormatter.ISO_DATE);
+        BookBO bookBO = new BookBO(title, author, genre, publishedDate);
+        return bookService.updateBook(bookId, bookBO);
     }
 
-    /**
-     * @return All authors
-     * @apiNote Get all authors
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    @GetMapping("/getauthors")
-    @ResponseBody
-    public List<String> getAuthors() {
-        return bookService.getAuthors();
-    }
-
-    /**
-     * @return All available books
-     * @apiNote Get all available books
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    @GetMapping("/getavailablebooks")
-    @ResponseBody
-    public List<String> getAvailableBooks() {
-        return bookService.getAvailableBookNames();
-    }
-
-    /**
-     * @param name Name of the book
-     * @return Book details
-     * @apiNote Get book details
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    @PostMapping("/getdetails")
-    @ResponseBody
-    public Book getBookDetails(@RequestHeader String name) {
-        return bookService.getBookDetails(name);
-    }
-
-    /**
-     * @param bookID Unique ID of the book
-     * @return Details of the member who holds the book
-     * @apiNote Get details of the member who holds the book
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    @PostMapping("/whoholds")
-    @ResponseBody
-    public Member whoHoldsTheBook(@RequestHeader int bookID) {
-        return bookService.whoHoldsTheBook(bookID);
-    }
-
-    /**
-     * @return Name of all the book
-     * @apiNote Get name of all the book
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    @GetMapping("/getnames")
-    @ResponseBody
-    public List<String> getBookNames() {
-        return bookService.getBookNames();
-    }
-
-    /**
-     * @param name Name of the book
-     * @return Book profile
-     * @apiNote Get book profile
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    @PostMapping("/getprofile")
-    @ResponseBody
-    public BookProfile getBookProfile(@RequestHeader String name) {
-        return bookService.getBookProfile(name);
-    }
-
-    /**
-     * @param name Name of the book
-     * @return true if book updated successfully, false otherwise
-     * @apiNote Update book
-     * @author [@thehackermonk]
-     * @since 1.0
-     */
-    @PostMapping("/update")
-    @ResponseBody
-    public Map<String, Boolean> updateBook(@RequestHeader int bookID, @RequestHeader String name, @RequestHeader String author, @RequestHeader String publication, @RequestHeader String genre) {
-
-        BookBO bookBO = new BookBO(name, author, publication, genre);
-
-        return bookService.updateBook(bookID, bookBO);
-
+    @DeleteMapping("/{bookId}")
+    @Operation(summary = "Delete a book", description = "Use this API to remove a specific book from the library collection. You need to specify the book's ID, and upon successful execution, the book will be permanently deleted from the library system.")
+    public ResponseEntity<String> deleteBook(@PathVariable int bookId) {
+        return bookService.deleteBook(bookId);
     }
 
 }
