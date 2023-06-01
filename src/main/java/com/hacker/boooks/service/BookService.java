@@ -1,5 +1,6 @@
 package com.hacker.boooks.service;
 
+import com.hacker.boooks.bean.AuthorProfile;
 import com.hacker.boooks.bean.Book;
 import com.hacker.boooks.bean.BookBO;
 import com.hacker.boooks.bean.BookProfile;
@@ -59,5 +60,7 @@ public interface BookService {
      * @return ResponseEntity indicating the success or failure of the book deletion
      */
     ResponseEntity<String> deleteBook(int bookId);
+
+    ResponseEntity<AuthorProfile> getAuthorProfile(String name);
 
 }

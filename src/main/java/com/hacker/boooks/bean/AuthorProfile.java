@@ -14,7 +14,7 @@ import java.util.List;
 public class AuthorProfile {
     private String name;
     private int noOfBooksWritten;
-    private String mostWrittenGenre;
     private List<Book> booksWritten;
+    private String mostWrittenGenre;
     private Book mostReadBook;
 }

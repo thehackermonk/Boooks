@@ -1,12 +1,11 @@
 package com.hacker.boooks.service.impl;
 
-import com.hacker.boooks.bean.Book;
-import com.hacker.boooks.bean.BookBO;
-import com.hacker.boooks.bean.BookProfile;
-import com.hacker.boooks.bean.Member;
+import com.hacker.boooks.bean.*;
 import com.hacker.boooks.entity.BookEntity;
+import com.hacker.boooks.entity.LogEntity;
 import com.hacker.boooks.entity.MemberEntity;
 import com.hacker.boooks.repository.BookRepository;
+import com.hacker.boooks.repository.LogRepository;
 import com.hacker.boooks.repository.MemberRepository;
 import com.hacker.boooks.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,9 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Book management service implementation.
@@ -33,6 +34,7 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final MemberRepository memberRepository;
+    private final LogRepository logRepository;
 
     /**
      * Retrieves a list of books.
@@ -122,7 +124,7 @@ public class BookServiceImpl implements BookService {
             bookProfile.setGenre(bookEntity.getGenre());
             bookProfile.setAvailable(bookEntity.getIsAvailable());
 
-            if (!bookEntity.getIsAvailable()) {
+            if (Boolean.FALSE.equals(bookEntity.getIsAvailable())) {
                 Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(bookEntity.getHolder());
                 if (optionalMemberEntity.isPresent()) {
                     MemberEntity memberEntity = optionalMemberEntity.get();
@@ -223,6 +225,82 @@ public class BookServiceImpl implements BookService {
             log.error("Failed to delete book with ID {}: {}", bookId, e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @Override
+    public ResponseEntity<AuthorProfile> getAuthorProfile(String name) {
+
+        AuthorProfile authorProfile = new AuthorProfile();
+        List<Book> books = new ArrayList<>();
+
+        List<BookEntity> booksByAuthor = bookRepository.findByAuthor(name);
+        if (booksByAuthor.isEmpty())
+            return ResponseEntity.notFound().build();
+
+        authorProfile.setName(name);
+        authorProfile.setNoOfBooksWritten(booksByAuthor.size());
+
+        for (BookEntity bookEntity : booksByAuthor) {
+            Book book = new Book();
+            book.setBookId(bookEntity.getBookId());
+            book.setTitle(bookEntity.getTitle());
+            book.setAuthor(bookEntity.getAuthor());
+            book.setGenre(bookEntity.getGenre());
+            book.setPublication(bookEntity.getPublication().toLocalDate());
+            book.setAvailable(bookEntity.getIsAvailable());
+            books.add(book);
+        }
+
+        authorProfile.setBooksWritten(books);
+
+        // Count the occurrences of each genre
+        Map<String, Long> genreCounts = booksByAuthor.stream()
+                .collect(Collectors.groupingBy(BookEntity::getGenre, Collectors.counting()));
+
+        // Find the genre with the highest count
+        String mostOccurringGenre = genreCounts.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null);
+
+        authorProfile.setMostWrittenGenre(mostOccurringGenre);
+
+        List<LogEntity> logsByAuthorBooks = logRepository.findByBookIdIn(
+                booksByAuthor.stream()
+                        .map(BookEntity::getBookId)
+                        .toList()
+        );
+
+        Map<Integer, Long> bookCounts = logsByAuthorBooks.stream()
+                .collect(Collectors.groupingBy(LogEntity::getBookId, Collectors.counting()));
+
+        Integer mostOccurringBookId = bookCounts.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null);
+
+        if (mostOccurringBookId != null) {
+            Optional<BookEntity> optionalBookEntity = bookRepository.findById(mostOccurringBookId);
+            if (optionalBookEntity.isPresent()) {
+                BookEntity bookEntity = optionalBookEntity.get();
+                Book book = new Book();
+                book.setBookId(bookEntity.getBookId());
+                book.setTitle(bookEntity.getTitle());
+                book.setAuthor(bookEntity.getAuthor());
+                book.setGenre(bookEntity.getGenre());
+                book.setPublication(bookEntity.getPublication().toLocalDate());
+                book.setAvailable(bookEntity.getIsAvailable());
+                authorProfile.setMostReadBook(book);
+            }
+        }
+
+//        private String name;
+//        private int noOfBooksWritten;
+//        private String mostWrittenGenre;
+//        private List<Book> booksWritten;
+//        private Book mostReadBook;
+
+        return ResponseEntity.ok(authorProfile);
     }
 
 }
