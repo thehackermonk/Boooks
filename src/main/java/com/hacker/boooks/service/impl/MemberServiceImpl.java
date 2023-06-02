@@ -46,6 +46,12 @@ public class MemberServiceImpl implements MemberService {
 
         try {
             List<MemberEntity> memberEntities = memberRepository.findAll();
+
+            if (memberEntities.isEmpty()) {
+                log.debug("No members found.");
+                return ResponseEntity.notFound().build();
+            }
+
             List<Member> members = new ArrayList<>();
 
             for (MemberEntity memberEntity : memberEntities) {
