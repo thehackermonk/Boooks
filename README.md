@@ -1,17 +1,7 @@
 
 <div id="top"></div>
-<!--
-*** Thanks for checking out the Best-README-Template. If you have a suggestion
-*** that would make this better, please fork the repo and create a pull request
-*** or simply open an issue with the tag "enhancement".
-*** Don't forget to give the project a star!
-*** Thanks again! Now go create something AMAZING! :D
--->
-
-
 
 <!-- PROJECT SHIELDS -->
-
 ![GitHub last commit](https://img.shields.io/github/last-commit/thehackermonk/boooks) ![GitHub](https://img.shields.io/github/license/thehackermonk/boooks?) ![GitHub issues](https://img.shields.io/github/issues/thehackermonk/boooks) ![GitHub language count](https://img.shields.io/github/languages/count/thehackermonk/boooks) ![GitHub top language](https://img.shields.io/github/languages/top/thehackermonk/boooks) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/thehackermonk/boooks) ![Lines of code](https://img.shields.io/tokei/lines/github/thehackermonk/boooks) ![Twitter Follow](https://img.shields.io/twitter/follow/thehackermonk)
 
 
@@ -126,7 +116,7 @@ Contributions are welcome! If you'd like to contribute to Boooks, please follow 
 <!-- LICENSE -->
 ## License
 
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+This project is licensed under the [GNU General Public License v3.0](https://opensource.org/license/gpl-3-0/).
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- AUTHORS -->
