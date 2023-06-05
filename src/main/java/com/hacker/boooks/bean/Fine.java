@@ -10,8 +10,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Fine {
-
     private int daysOverdue;
     private float amount;
-
 }

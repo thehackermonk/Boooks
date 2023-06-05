@@ -26,6 +26,7 @@ public class ApplicationConfig {
     }
 
     @Bean
+    @SuppressWarnings("unused")
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
@@ -34,6 +35,7 @@ public class ApplicationConfig {
     }
 
     @Bean
+    @SuppressWarnings("unused")
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }

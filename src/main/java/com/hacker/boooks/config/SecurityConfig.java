@@ -19,12 +19,13 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
 
     @Bean
+    @SuppressWarnings("unused")
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/register","/login","/refresh-token","/forgot-password","/reset-password","/swagger-ui/**", "/v3/api-docs/**","/actuator/**")
+                .requestMatchers("/register", "/login", "/refresh-token", "/forgot-password", "/reset-password", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

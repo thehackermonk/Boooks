@@ -34,11 +34,10 @@ class LogRepositoryTest {
         Float fine1 = 12.5f;
 
         Date issueDate2 = Date.valueOf(LocalDate.now());
-        Date returnDate2 = null;
         Float fine2 = 0.0f;
 
         LogEntity logEntity1 = new LogEntity(logId1, bookId1, memberId1, issueDate1, returnDate1, fine1);
-        LogEntity logEntity2 = new LogEntity(logId2, bookId2, memberId2, issueDate2, returnDate2, fine2);
+        LogEntity logEntity2 = new LogEntity(logId2, bookId2, memberId2, issueDate2, null, fine2);
         underTest.saveAll(List.of(logEntity1, logEntity2));
     }
 

@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/logs")
 @Tag(name = "Log Management", description = "APIs for managing logs")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @Slf4j
 @SuppressWarnings("unused")
 public class LogController {
@@ -25,8 +25,8 @@ public class LogController {
     @Autowired
     private LogService logService;
 
-    @GetMapping("")
     @Operation(summary = "Get all book logs", description = "This API allows you to retrieve a list of all book logs in the library. It returns information such as the log ID, book ID, member ID, issue date, return date, and fine amount (if applicable).")
+    @GetMapping("")
     public ResponseEntity<List<Log>> getBooks() {
         return logService.getLogs();
     }

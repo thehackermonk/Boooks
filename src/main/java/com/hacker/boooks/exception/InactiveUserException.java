@@ -6,8 +6,5 @@ public class InactiveUserException extends RuntimeException {
         super(message);
     }
 
-    public InactiveUserException(String message, Throwable cause) {
-        super(message, cause);
-    }
 
 }

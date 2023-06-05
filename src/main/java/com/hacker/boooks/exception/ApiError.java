@@ -9,11 +9,9 @@ import java.time.ZonedDateTime;
 
 @AllArgsConstructor
 @Getter
-public class ApiException {
-
+public class ApiError {
     private final String message;
     private final Throwable throwable;
     private final HttpStatus httpStatus;
     private final ZonedDateTime timestamp;
-
 }

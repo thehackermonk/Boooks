@@ -9,21 +9,22 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 @ControllerAdvice
+@SuppressWarnings("unused")
 public class ApiExceptionHandler {
 
-    @ExceptionHandler(value={InactiveUserException.class})
+    @ExceptionHandler(value = {InactiveUserException.class})
     public ResponseEntity<Object> handleInactiveUserException(InactiveUserException e) {
 
         HttpStatus unauthorized = HttpStatus.UNAUTHORIZED;
 
-        ApiException apiException = new ApiException(
+        ApiError apiError = new ApiError(
                 e.getMessage(),
                 e,
                 unauthorized,
                 ZonedDateTime.now(ZoneId.of("Z"))
         );
 
-        return new ResponseEntity<>(apiException, unauthorized);
+        return new ResponseEntity<>(apiError, unauthorized);
 
     }
 

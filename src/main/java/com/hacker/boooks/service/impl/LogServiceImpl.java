@@ -34,7 +34,7 @@ public class LogServiceImpl implements LogService {
         try {
             List<LogEntity> logEntities = logRepository.findAll();
 
-            if(logEntities.isEmpty()) {
+            if (logEntities.isEmpty()) {
                 log.debug("No logs found.");
                 return ResponseEntity.notFound().build();
             }

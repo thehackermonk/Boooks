@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @Tag(name = "Authentication Management", description = "APIs for librarian authentication")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @Slf4j
 @SuppressWarnings("unused")
 public class AuthenticationController {
@@ -109,6 +109,5 @@ public class AuthenticationController {
     public ResponseEntity<String> deleteLibrarian(@RequestHeader("username") String username) {
         return authenticationService.deleteLibrarian(username);
     }
-
 
 }
