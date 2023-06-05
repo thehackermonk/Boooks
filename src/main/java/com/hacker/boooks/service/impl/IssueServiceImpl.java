@@ -97,6 +97,8 @@ public class IssueServiceImpl implements IssueService {
                 return ResponseEntity.notFound().build();
             }
 
+            LogEntity logEntity = optionalLogEntity.get();
+
             Optional<BookEntity> optionalBookEntity = bookRepository.findById(bookId);
 
             if (optionalBookEntity.isPresent()) {
@@ -114,7 +116,7 @@ public class IssueServiceImpl implements IssueService {
             float totalFine = 0.0f;
 
             if (optionalFineEntity.isPresent()) {
-                expectedReturnDate = currentDate.plusDays(optionalFineEntity.get().getDaysOverdue());
+                expectedReturnDate = logEntity.getIssueDate().toLocalDate().plusDays(optionalFineEntity.get().getDaysOverdue());
                 finePerDay = optionalFineEntity.get().getFineAmount();
             } else {
                 expectedReturnDate = currentDate.plusDays(5);
@@ -126,7 +128,6 @@ public class IssueServiceImpl implements IssueService {
                 totalFine = finePerDay * daysDifference;
             }
 
-            LogEntity logEntity = optionalLogEntity.get();
             logEntity.setReturnDate(Date.valueOf(currentDate));
             logEntity.setFine(totalFine);
             logRepository.save(logEntity);

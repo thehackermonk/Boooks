@@ -320,6 +320,7 @@ public class BookServiceImpl implements BookService {
 
             if (mostOccurringBookId != null) {
                 Optional<BookEntity> optionalBookEntity = bookRepository.findById(mostOccurringBookId);
+
                 if (optionalBookEntity.isPresent()) {
                     BookEntity bookEntity = optionalBookEntity.get();
                     Book book = new Book();

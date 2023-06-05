@@ -5,11 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class Fine {
-    private int daysOverdue;
-    private float amount;
+@AllArgsConstructor
+@NoArgsConstructor
+public class Librarian {
+    private String username;
+    private boolean isActive;
 }
